@@ -46,62 +46,41 @@ cabal install apiary warp
                        use port 3000  use logger extension
 
 >     [capture|/hello/first::S.ByteString[first name of client.]|]
-
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       route capture QQ.
 
       name::Type[document] = parameter capture
       **name               = consume greedy
 
-
-
 >       . ([key|last|] ?? "last name of client" =?: pByteString)
-
           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
           query parameter filter.
-      
+
           key QQ is simple helper: `[key|foo|] == (Proxy :: Proxy "foo")`.
           (??) is add document to query parameter.
 
-
 >       . method GET $ do
-
           ~~~~~~~~~~
           method filter. you can use non-standard method by
           string literal (example: method "HOGE").
 
-
-
 >         accept "text/plain"
-
           ~~~~~~~~~~~~~~~~~~
           accept filter: filter by Accept header and set content-type of response.
 
-
-
 >             . document "plain hello page."
-
                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                 add document to action.
 
-
-
 >             . action $ do
-
                 ~~~~~~
                 splice ActionT monad to filter.
 
-
-
 >                 logging "text page is accessed.\n"
-
                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                   extension action.
 
-
-
 >                 helloAction
-
 >         accept "text/html"
 >             . document "html hello page."
 >             . action $ do
@@ -113,7 +92,6 @@ cabal install apiary warp
 >     [capture|/api|] . document "api documentation" . action $ do
 >         logging "api documentation page is accessed.\n"
 >         defaultDocumentationAction def
-
           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
           auto generated api documentation action.
 
@@ -121,22 +99,16 @@ cabal install apiary warp
 
 
 > helloAction :: Members ["first" := S.ByteString, "last" := Maybe S.ByteString] prms
-
                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                  prms must have "first" :: S.ByteString
                  and "last" :: Maybe S.ByteString parameters.
 
-
-
 >             => ActionT exts prms IO ()
 > helloAction = do
 >     (f, l) <- [params|first, last|]
-
                 ~~~~~~~~~~~~~~~~~~~~
                 get parameters. equals to `do { f <- param [key|first|];
                                                 l <- param [key|last|] }`
-
-
 
 >     appendBytes "Hello, "
 >     appendBytes f
