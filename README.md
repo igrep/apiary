@@ -41,12 +41,9 @@ cabal install apiary warp
 > import qualified Data.ByteString as S
 > 
 > main :: IO ()
-> main = runApiaryWith (run 3000) (initLogger def) def $ do
-
-                                  ~~~~~~~~~~~~~~~~
-                                  use logger extension
-
-
+> main = runApiaryWith (run 3000)     (initLogger def) def $ do
+                       ~~~~~~~~~~     ~~~~~~~~~~~~~~~~
+                       use port 3000  use logger extension
 
 >     [capture|/hello/first::S.ByteString[first name of client.]|]
 
